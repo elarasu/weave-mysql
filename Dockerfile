@@ -12,6 +12,7 @@ ADD conf/mysqld_charset.cnf /etc/mysql/conf.d/mysqld_charset.cnf
 RUN  apt-get update \
   && apt-get install -yq mysql-server-5.6 pwgen --no-install-recommends \
   && if [ ! -f /usr/share/mysql/my-default.cnf ] ; then cp /etc/mysql/my.cnf /usr/share/mysql/my-default.cnf; fi \
+  && sed -e '/bind-address/ s/^#*/#/' -i /etc/mysql/mysql.conf.d/mysqld.cnf \
   && mysql_install_db > /dev/null 2>&1 \
   && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* /etc/mysql/conf.d/mysqld_safe_syslog.cnf \
   && touch /var/lib/mysql/.EMPTY_DB
